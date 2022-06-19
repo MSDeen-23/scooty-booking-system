@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Outlet {
     @Id
     private String id;
+    private String name;
     private Boolean isDeleted;
     private LocationCoordinates locationCoordinates;
     private int maximumAvailableSlots;

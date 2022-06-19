@@ -1,5 +1,7 @@
 package com.example.scootybookingsystem.service.impl;
 
+import com.example.scootybookingsystem.exceptions.customExceptions.NotFoundException;
+import com.example.scootybookingsystem.exceptions.customExceptions.OutletsNotAddedException;
 import com.example.scootybookingsystem.exceptions.customExceptions.SaveOutletFailedException;
 import com.example.scootybookingsystem.model.Outlet;
 import com.example.scootybookingsystem.repository.OutletRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OutletServiceImpl implements OutletService {
@@ -34,11 +37,22 @@ public class OutletServiceImpl implements OutletService {
 
     @Override
     public ResponseEntity<List<Outlet>> getAllOutlets() {
-        return null;
+        List outlet = outletRepository.findAll();
+        if(outlet.size()==0){
+            throw new OutletsNotAddedException("No outlets present in the system");
+        }
+        else{
+            return ResponseEntity.ok().body(outlet);
+        }
     }
 
     @Override
     public ResponseEntity<Outlet> getOutlet(String id) {
-        return null;
+        Optional<Outlet> outlet = outletRepository.findById(id);
+        if(outlet.isPresent()){
+            return ResponseEntity.ok().body(outlet.get());
+        }else{
+            throw new NotFoundException("Outlet");
+        }
     }
 }

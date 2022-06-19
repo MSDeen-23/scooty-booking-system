@@ -17,4 +17,5 @@ public class OutletController {
         return outletService.addOutlet(outlet);
     }
 
+
 }
